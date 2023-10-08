@@ -62,9 +62,9 @@ class SimpleCommands(commands.Cog):
 
 	@commands.command()
 	async def insertHead(self, ctx, val: int):
-		if not myList:
-			await ctx.send("```Nothing in list!```")
-			return
+		# if not myList:
+		# 	await ctx.send("```Nothing in list!```")
+		# 	return
 		msg = f'```\ninserting {val} at head of list...\n'
 		myList.insert(0, val)
 		msg += f'inserted!```'
@@ -72,9 +72,9 @@ class SimpleCommands(commands.Cog):
 
 	@commands.command()
 	async def insertTail(self, ctx, val: int):
-		if not myList:
-			await ctx.send("```Nothing in list!```")
-			return
+		# if not myList:
+		# 	await ctx.send("```Nothing in list!```")
+		# 	return
 		msg = f'```\ninserting {val} at tail of list...\n'
 		myList.append(val)
 		msg += f'inserted!```'
@@ -82,9 +82,9 @@ class SimpleCommands(commands.Cog):
 
 	@commands.command()
 	async def delete(self, ctx, val: int):
-		if not myList:
-			await ctx.send("```Nothing in list!```")
-			return
+		# if not myList:
+		# 	await ctx.send("```Nothing in list!```")
+		# 	return
 		if val not in myList:
 			await ctx.send(f'```\nValue not in list!```')
 			return
@@ -142,7 +142,8 @@ class SimpleCommands(commands.Cog):
 		msg += "Insert at index: &insertAtIndex [index] [element]\n"
 		msg += "Delete at index: &deleteAtIndex [index]\n"
 		msg += "Print current array: &printArray\n"
-		msg += "Clear array: &EMPTYARRAY```"
+		msg += "Clear array: &EMPTYARRAY\n"
+		msg += "Destroy array: &DESTROYARRAY```"
 		await ctx.send(msg)
 
 	@commands.command()
@@ -212,8 +213,20 @@ class SimpleCommands(commands.Cog):
 			return
 		
 		msg = "```emptying...\n"
-		array.clear()
+		for index, val in enumerate(array):
+			array[index] = None
 		msg += "emptied!```"
+		await ctx.send(msg)
+
+	@commands.command()
+	async def DESTROYARRAY(self, ctx):
+		if not array:
+			await ctx.send("```Nothing in array!```")
+			return
+		
+		msg = "```destroying...\n"
+		array.clear()
+		msg += "destroyed!```"
 		await ctx.send(msg)
 
 intents = discord.Intents.default()
