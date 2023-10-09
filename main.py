@@ -25,6 +25,8 @@ helpTxt = 'https://github.com/vlazo1214/gerberSmash/blob/main/help.txt?raw=true'
 myList =[]
 array = []
 
+# use ''.join()!!!!!
+
 class SimpleCommands(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
