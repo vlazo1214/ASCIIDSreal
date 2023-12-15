@@ -168,6 +168,7 @@ class SimpleCommands(commands.Cog):
 			await ctx.send("```Must allocate space!```")
 			return
 		elif index >= len(array) or index < 0:
+			# SEGFAULT!!!!
 			await ctx.send("```Index is out of range!```")
 			return
 		msg = f"```\ninserting {element} at index {index}...\n"
@@ -211,6 +212,7 @@ class SimpleCommands(commands.Cog):
 	@commands.command()
 	async def EMPTYARRAY(self, ctx):
 		if not array:
+			# array is NULL
 			await ctx.send("```Nothing in array!```")
 			return
 		
