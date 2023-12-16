@@ -25,8 +25,6 @@ helpTxt = 'https://github.com/vlazo1214/gerberSmash/blob/main/help.txt?raw=true'
 myList =[]
 array = []
 
-# use ''.join()!!!!!
-
 class SimpleCommands(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
@@ -37,50 +35,53 @@ class SimpleCommands(commands.Cog):
 
 	@commands.command()
 	async def lst(self, ctx):
-		msg = "```\nLinked List: &LLprintMenu```"
-		msg += "```\nArray: &ARprintMenu```"
-		await ctx.send(msg)
+		msg = ["```\nLinked List: &LLprintMenu```", "```\nArray: &ARprintMenu```"]
+		ret = "".join(msg)
+		await ctx.send(ret)
 
 	# --------------------------- linked list stuff -----------------------------------------
 
 	# linked list aux functions
 	def printNode(self, val):
-		msg = "+-----+\n"
-		msg += f"|  {val}  |\n"
-		msg += "+-----+\n"
-		msg += "   |\n"
-		msg += "   v\n"
-		return msg
+		msg = ["+-----+\n",
+		f"|  {val}  |\n",
+		"+-----+\n",
+		"   |\n",
+		"   v\n"
+		]
+		ret = "".join(msg)
+		return ret
 
 	@commands.command()
 	async def LLprintMenu(self, ctx):
-		msg = "```\nWhat Linked List operation would you like to perform? (only integers supported)\n"
-		msg += "Head Insert: &insertHead [value]\n"
-		msg += "Tail Insert: &insertTail [value]\n"
-		msg += "Delete: &delete [value]\n"
-		msg +="Print current list: &printList\n"
-		msg += "Clear list: &CLEARALL```"
-		await ctx.send(msg)
+		msg = [
+			"```\nWhat Linked List operation would you like to perform? (only integers supported)\n", 
+			"Head Insert: &insertHead [value]\n",
+			"Tail Insert: &insertTail [value]\n",
+			"Delete: &delete [value]\n",
+			"Print current list: &printList\n",
+			"Clear list: &CLEARALL```"
+			]
+		ret = "".join(msg)
+		await ctx.send(ret)
 
 	@commands.command()
 	async def insertHead(self, ctx, val: int):
 		# if not myList:
 		# 	await ctx.send("```Nothing in list!```")
 		# 	return
-		msg = f'```\ninserting {val} at head of list...\n'
 		myList.insert(0, val)
-		msg += f'inserted!```'
-		await ctx.send(msg)
+		ret = "".join(f'```\ninserted {val} at head of list!\n```')
+		await ctx.send(ret)
 
 	@commands.command()
 	async def insertTail(self, ctx, val: int):
 		# if not myList:
 		# 	await ctx.send("```Nothing in list!```")
 		# 	return
-		msg = f'```\ninserting {val} at tail of list...\n'
 		myList.append(val)
-		msg += f'inserted!```'
-		await ctx.send(msg)
+		ret = "".join(f'```\ninserted {val} at tail of list!\n```')
+		await ctx.send(ret)
 
 	@commands.command()
 	async def delete(self, ctx, val: int):
@@ -90,25 +91,26 @@ class SimpleCommands(commands.Cog):
 		if val not in myList:
 			await ctx.send(f'```\nValue not in list!```')
 			return
-		msg = f"```deleting {val}...\n"
 		myList.remove(val)
-		msg += f'deleted!```'
-		await ctx.send(msg)
+		ret = "".join(f"```deleted {val}!\n```")
+		await ctx.send(ret)
 
 	@commands.command()
 	async def printList(self, ctx):
 		if not myList:
-			await ctx.send("```Nothing in list!```")
+			ret = "".join("```Nothing in list!```")
+			await ctx.send(ret)
 			return
-		msg = "```\n"
+		msg = ["```\n"]
 		
 		for index, val in enumerate(myList):
 			if val == myList[0]:
-				msg += '\n'
-			msg += f'index: {index}\n'
-			msg += self.printNode(val)
-		msg += "   X```"
-		await ctx.send(msg)
+				msg.append('\n')
+			msg.append(f'index: {index}\n')
+			msg.append(self.printNode(val))
+		msg.append("   X```")
+		ret = "".join(msg)
+		await ctx.send(ret)
 
 	@commands.command()
 	async def CLEARALL(self, ctx):
@@ -116,10 +118,9 @@ class SimpleCommands(commands.Cog):
 			await ctx.send("```Nothing in list!```")
 			return
 		
-		msg = ("```\nClearing...\n")
 		myList.clear()
-		msg += "Cleared!```"
-		await ctx.send(msg)
+		ret = "".join("```\nCleared!\n```")
+		await ctx.send(ret)
 
 	# --------------------------------- end linked list stuff ------------------------------------
 
@@ -127,26 +128,35 @@ class SimpleCommands(commands.Cog):
 
 	# array aux functions
 	def printEmptyCell(self, index):
-		msg = "+-----+\n"
-		msg += f"|     |  index: {index}\n"
-		return msg
+		msg = ["+-----+\n",
+			f"|     |  index: {index}\n"
+		]
+
+		ret = "".join(msg)
+		return ret
 	
 	def printCell(self, index, val):
-		msg = "+-----+\n"
-		msg += f"|  {val}  |  index: {index}\n"
-		return msg
+		msg = ["+-----+\n",
+			f"|  {val}  |  index: {index}\n"
+		]
+
+		ret = "".join(msg)
+		return ret
 
 	@commands.command()
 	async def ARprintMenu(self, ctx):
-		msg = "```\nWhat Array operation would you like to perform? (only integers supported)\n"
-		msg += "Allocate memory: &allocate [size]\n"
+		msg = ["```\nWhat Array operation would you like to perform? (only integers supported)\n",
+		"Allocate memory: &allocate [size]\n",
 		# msg += "Insert: &insert [value]\n"
-		msg += "Insert at index: &insertAtIndex [index] [element]\n"
-		msg += "Delete at index: &deleteAtIndex [index]\n"
-		msg += "Print current array: &printArray\n"
-		msg += "Clear array: &EMPTYARRAY\n"
-		msg += "Destroy array: &DESTROYARRAY```"
-		await ctx.send(msg)
+		"Insert at index: &insertAtIndex [index] [element]\n",
+		"Delete at index: &deleteAtIndex [index]\n",
+		"Print current array: &printArray\n",
+		"Clear array: &EMPTYARRAY\n",
+		"Destroy array: &DESTROYARRAY```"
+		]
+
+		ret = "".join(msg)
+		await ctx.send(ret)
 
 	@commands.command()
 	async def allocate(self, ctx, size: int):
@@ -156,11 +166,11 @@ class SimpleCommands(commands.Cog):
 		if size < 1:
 			await ctx.send("```Can't have negative/ 0 size!```")
 			return
-		msg = f"```\nallocating {size} cells...\n"
 		for _ in range(size):
 			array.append(None)
-		msg += "allocated!```"
-		await ctx.send(msg)
+		msg = [f"```\nallocated {size} cells!\n```"]
+		ret = "".join(msg)
+		await ctx.send(ret)
 
 	@commands.command()
 	async def insertAtIndex(self, ctx, index: int, element: int):
@@ -169,12 +179,12 @@ class SimpleCommands(commands.Cog):
 			return
 		elif index >= len(array) or index < 0:
 			# SEGFAULT!!!!
-			await ctx.send("```Index is out of range!```")
+			await ctx.send("```Index is out of range! (Segfault!)```")
 			return
-		msg = f"```\ninserting {element} at index {index}...\n"
 		array[index] = element
-		msg += "...inserted!```"
-		await ctx.send(msg)
+		msg = [f"```\ninserted {element} at index {index}!\n```"]
+		ret = "".join(msg)
+		await ctx.send(ret)
 
 	@commands.command()
 	async def deleteAtIndex(self, ctx, index: int):
@@ -188,10 +198,10 @@ class SimpleCommands(commands.Cog):
 			await ctx.send("```Nothing to delete!```")
 			return
 
-		msg = f"```\ndeleting element at index {index}...\n"
 		array[index] = None
-		msg += "...deleted!```"
-		await ctx.send(msg)
+		msg = f"```\ndeleted element at index {index}!\n"
+		ret = "".join(msg)
+		await ctx.send(ret)
 	
 	@commands.command()
 	async def printArray(self, ctx):
@@ -199,15 +209,16 @@ class SimpleCommands(commands.Cog):
 			await ctx.send("```Nothing in array!```")
 			return
 		
-		msg = "```\n"
+		msg = ["```\n"]
 
 		for index, element in enumerate(array):
 			if element == None:
-				msg += self.printEmptyCell(index)
+				msg.append[self.printEmptyCell(index)]
 			else:
-				msg += self.printCell(index, element)
-		msg += "+-----+```"
-		await ctx.send(msg)
+				msg.append[self.printCell(index, element)]
+		msg.append("+-----+```")
+		ret = "".join(msg)
+		await ctx.send(ret)
 
 	@commands.command()
 	async def EMPTYARRAY(self, ctx):
@@ -216,11 +227,11 @@ class SimpleCommands(commands.Cog):
 			await ctx.send("```Nothing in array!```")
 			return
 		
-		msg = "```emptying...\n"
 		for index, val in enumerate(array):
 			array[index] = None
-		msg += "emptied!```"
-		await ctx.send(msg)
+		msg = ["```emptied!```"]
+		ret = "".join(msg)
+		await ctx.send(ret)
 
 	@commands.command()
 	async def DESTROYARRAY(self, ctx):
@@ -228,9 +239,8 @@ class SimpleCommands(commands.Cog):
 			await ctx.send("```Nothing in array!```")
 			return
 		
-		msg = "```destroying...\n"
 		array.clear()
-		msg += "destroyed!```"
+		msg = "```destroyed!\n```"
 		await ctx.send(msg)
 
 intents = discord.Intents.default()
